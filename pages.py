@@ -1,6 +1,8 @@
 import tools.gui as gui
+import tools.clientinput as ci
 import tkinter as tk
-import winsound
+if ci.is_win():
+	import winsound
 from PIL import Image, ImageTk
 
 
@@ -15,7 +17,8 @@ class PageTitle(tk.Frame):
 		#self.winfo_toplevel().geometry('500x190')
 		tk.Frame.configure(self, bg='black')
 		self.winfo_toplevel().title('GD Level Transfer Tool v1')
-		winsound.PlaySound('media/power.wav', winsound.SND_ALIAS | winsound.SND_ASYNC)
+		if ci.is_win():
+			winsound.PlaySound('media/power.wav', winsound.SND_ALIAS | winsound.SND_ASYNC)
 		tk.Label(self, text='Level Transfer Tool', fg='white', bg='black', 
 			font=FONT_TITLE_MAIN).grid(row=0, column=0, columnspan=2)
 		self.main_canvas = tk.Canvas(self, width=300, height=300, background='black')
@@ -36,10 +39,13 @@ class PageUpload(tk.Frame):
 		#self.winfo_toplevel().geometry('500x190')
 		tk.Frame.configure(self, bg='black')
 		self.winfo_toplevel().title('Upload your Level')
-		winsound.PlaySound('media/sakupen.wav', winsound.SND_ALIAS | winsound.SND_ASYNC)
+		if ci.is_win():
+			winsound.PlaySound('media/sakupen.wav', winsound.SND_ALIAS | winsound.SND_ASYNC)
 		self.upload_canvas = tk.Canvas(self, width=300, height=300, background='black')
 		self.upload_canvas.grid(row=1, column=0, rowspan=2)
 		tk.Label(self, text='Upload Level', fg='white', bg='black', 
 			font=FONT_TITLE_SECOND).grid(row=0, column=0)
 		tk.Button(self, text='>', font=FONT_BUTTON, 
 			command=lambda: master.switch_frame(PageTitle)).grid(row=3, column=1)
+		self.upload_entry = tk.Entry(self)
+		tk.upload_canvas.create_window(0, 0, window=self.upload_entry)
