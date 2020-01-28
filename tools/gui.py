@@ -1,6 +1,8 @@
 import sys
 sys.path.insert(0, '..')
 import pages
+import tools.clientinput as ci
+import winsound
 import tkinter as tk
 
 
@@ -16,3 +18,22 @@ class TkView(tk.Tk):
             self.frame.destroy()
         self.frame = new_frame
         self.frame.pack()
+
+
+def sound(name):
+    if ci.is_win():
+        winsound.PlaySound(name, winsound.SND_ALIAS | winsound.SND_ASYNC)
+
+
+# Unused
+def loading(label, bl, prev):
+    m_list = ['/', '-', '\\', '|']
+    use = ''
+    if prev == m_list[len(m_list) - 1]:
+        use = m_list[0]
+    else:
+        use = m_list[m_list.index(prev) + 1]
+    if bl:
+        label.set('Loading... ' + use)
+    else:
+        label.grid_forget()

@@ -1,12 +1,16 @@
-import subprocess
+import psutil
 import platform
 
 
 def process_exists(process_name):
-    call = 'TASKLIST', '/FI', 'imagename eq %s' % process_name
-    output = subprocess.check_output(call)
-    last_line = output.strip().split('\r\n')[-1]
-    return last_line.lower().startswith(process_name.lower())
+	if is_win():
+	    for proc in psutil.process_iter():
+	        try:
+	            if process_name.lower() in proc.name().lower():
+	                return True
+	        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+	            pass
+	return False
 
 
 def is_win():

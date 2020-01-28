@@ -11,7 +11,11 @@ def j_create(name, data=None):
 
 def j_read(name):
 	infile = open(name + '.json', 'r')
-	data = json.load(infile)
+	data = None
+	try:
+		data = json.load(infile)
+	except json.decoder.JSONDecodeError:
+		pass
 	infile.close()
 	return data
 
